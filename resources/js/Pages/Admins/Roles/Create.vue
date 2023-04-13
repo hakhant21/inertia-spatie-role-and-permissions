@@ -1,19 +1,29 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3'
 import { toast } from 'vue3-toastify';
-import AdminLayout from '@/Layouts/AdminLayout.vue'
-import InputLabel from '@/Components/InputLabel.vue';
+import VueMultiselect from 'vue-multiselect';
 import TextInput from '@/Components/TextInput.vue';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
+import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 
+const props = defineProps({
+    permissions: {
+        type: Array,
+        default: []
+    }
+})
+
 const form = useForm({
     name: '',
+    permissions: []
 });
 
 const createRole = async () => {
     await form.post(route('roles.store'), {
+        preserveScroll: true,
         preserveState: true,
         replace: true,
         onSuccess: () => {
@@ -41,7 +51,6 @@ const createRole = async () => {
                 <form @submit.prevent="createRole">
                     <div class="my-4">
                         <InputLabel for="name" value="Name"/>
-
                         <TextInput
                             id="name"
                             v-model="form.name"
@@ -49,8 +58,19 @@ const createRole = async () => {
                             class="mt-1 block w-full"
                             autocomplete="name"
                         />
-
                         <InputError class="mt-2" :message="form.errors.name"/>
+                    </div>
+                    <div class="my-4">
+                        <InputLabel for="permissions" value="Permissions"/>
+                        <VueMultiselect
+                            v-model="form.permissions"
+                            :options="permissions"
+                            :multiple="true"
+                            :close-on-select="true"
+                            placeholder="Choose Permissions"
+                            label="name"
+                            track-by="id"
+                        />
                     </div>
                     <div class="my-4">
                         <PrimaryButton :disabled="form.processing">Create</PrimaryButton>
@@ -60,3 +80,6 @@ const createRole = async () => {
         </div>
    </AdminLayout>
 </template>
+
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
+

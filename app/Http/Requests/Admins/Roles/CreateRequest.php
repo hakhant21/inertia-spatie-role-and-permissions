@@ -23,7 +23,8 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:30', Rule::unique('roles', 'name')]
+            'name' => ['required', 'string', 'max:30', Rule::unique('roles', 'name')],
+            'permissions' => ['sometimes', 'array']
         ];
     }
 }

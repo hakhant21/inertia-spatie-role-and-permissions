@@ -14,6 +14,7 @@ const form = useForm({
 
 const createPermission = async () => {
     await form.post(route('permissions.store'), {
+        preserveScroll:true,
         preserveState: true,
         replace: true,
         onSuccess: () => {
