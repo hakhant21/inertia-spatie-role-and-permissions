@@ -1,22 +1,36 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3'
 import { toast } from 'vue3-toastify';
-import AdminLayout from '@/Layouts/AdminLayout.vue'
+import VueMultiselect from 'vue-multiselect';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
+const props = defineProps({
+    roles: {
+        type: Array,
+        default: []
+    },
+    permissions: {
+        type: Array,
+        default: []
+    }
+})
 
 const form = useForm({
     name: '',
     email: '',
     password: '',
-    password_confirmation: ''
+    password_confirmation: '',
+    roles: [],
+    permissions: []
 });
 
 const createUser = async () => {
     await form.post(route('users.store'), {
+        preserveScroll: true,
         preserveState: true,
         replace: true,
         onSuccess: () => {
@@ -44,7 +58,6 @@ const createUser = async () => {
                 <form @submit.prevent="createUser">
                     <div class="my-4">
                         <InputLabel for="name" value="Name"/>
-
                         <TextInput
                             id="name"
                             v-model="form.name"
@@ -52,12 +65,10 @@ const createUser = async () => {
                             class="mt-1 block w-full"
                             autocomplete="name"
                         />
-
                         <InputError class="mt-2" :message="form.errors.name"/>
                     </div>
                     <div class="my-4">
                         <InputLabel for="email" value="Email"/>
-
                         <TextInput
                             id="email"
                             v-model="form.email"
@@ -65,12 +76,10 @@ const createUser = async () => {
                             class="mt-1 block w-full"
                             autocomplete="email"
                         />
-
                         <InputError class="mt-2" :message="form.errors.email"/>
                     </div>
                     <div class="my-4">
                         <InputLabel for="password" value="Password"/>
-
                         <TextInput
                             id="password"
                             v-model="form.password"
@@ -78,12 +87,10 @@ const createUser = async () => {
                             class="mt-1 block w-full"
                             autocomplete="false"
                         />
-
                         <InputError class="mt-2" :message="form.errors.password"/>
                     </div>
                     <div class="my-4">
                         <InputLabel for="password_confirmation" value="Confirm Password"/>
-
                         <TextInput
                             id="password_confirmation"
                             v-model="form.password_confirmation"
@@ -91,8 +98,31 @@ const createUser = async () => {
                             class="mt-1 block w-full"
                             autocomplete="false"
                         />
-
                         <InputError class="mt-2" :message="form.errors.password_confirmation"/>
+                    </div>
+                    <div class="my-4">
+                        <InputLabel for="roles" value="Roles"/>
+                        <VueMultiselect
+                            v-model="form.roles"
+                            :options="roles"
+                            :multiple="true"
+                            :close-on-select="true"
+                            placeholder="Choose roles"
+                            label="name"
+                            track-by="id"
+                        />
+                    </div>
+                    <div class="my-4">
+                        <InputLabel for="permissions" value="Permissions"/>
+                        <VueMultiselect
+                            v-model="form.permissions"
+                            :options="permissions"
+                            :multiple="true"
+                            :close-on-select="true"
+                            placeholder="Choose Permissions"
+                            label="name"
+                            track-by="id"
+                        />
                     </div>
                     <div class="my-4">
                         <PrimaryButton :disabled="form.processing">Create</PrimaryButton>
@@ -102,3 +132,6 @@ const createUser = async () => {
         </div>
    </AdminLayout>
 </template>
+
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
+

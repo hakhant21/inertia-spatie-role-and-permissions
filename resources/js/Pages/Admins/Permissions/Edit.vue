@@ -21,6 +21,7 @@ const form = useForm({
 
 const updatePermission = async () => {
     await form.put(route('permissions.update', props.permission), {
+        preserveScroll: true,
         preserveState: true,
         replace: true,
         onSuccess: () => {
