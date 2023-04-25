@@ -16,7 +16,7 @@ import SidebarLink from "@/Components/SidebarLink.vue";
 
                 <ul class="space-y-2 tracking-wide mt-8">
                     <li>
-                        <SidebarLink href="/dashboard" :active="false">
+                        <SidebarLink :href="route('dashboard')" :active="false">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -148,7 +148,7 @@ import SidebarLink from "@/Components/SidebarLink.vue";
                         hidden
                         class="text-2xl text-gray-600 font-medium lg:block"
                     >
-                        Dashboard
+                        Admin Dashboard
                     </h5>
                     <button class="w-12 h-16 -mr-2 border-r lg:hidden">
                         <svg
