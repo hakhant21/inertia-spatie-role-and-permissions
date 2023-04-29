@@ -1,14 +1,18 @@
 <script setup>
+import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import Modal from '@/Components/Modal.vue';
 import Table from "@/Components/Table.vue";
 import TableRow from "@/Components/TableRow.vue";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { Head, Link, router } from "@inertiajs/vue3";
+import { Head, Link, useForm } from "@inertiajs/vue3";
+import DangerButton from '@/Components/DangerButton.vue';
 import TableDataCell from "@/Components/TableDataCell.vue";
 import TableHeaderCell from "@/Components/TableHeaderCell.vue";
-import DangerButton from '@/Components/DangerButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
+
+const showConfirmDeleteUserModal = ref(false);
+const form = useForm({});
 
 const props = defineProps({
     users: {
@@ -17,17 +21,16 @@ const props = defineProps({
     },
 });
 
-const showConfirmDeleteUserModal = ref(false);
-
 const deleteUser = async (user) => {
     showConfirmDeleteUserModal.value = true;
-    router.delete(route('users.destroy', user), {
+    form.delete(route('users.destroy', user), {
         preserveState: true,
         replace: true,
         onSuccess: () => {
+            closeModal();
             toast('Successfully deleted user!', {
                 autoClose: 1000
-            })
+            });
         }
     })
 }
@@ -71,13 +74,13 @@ const closeModal = () => {
                                 <Link :href="route('users.edit', user)" class="text-green-400 hover:text-green-300 pr-2">
                                     Edit
                                 </Link>
-                                <button @click="deleteUser(user)" class="text-red-400 hover:text-red-300">
+                                <button @click="deleteUser" class="text-red-400 hover:text-red-300">
                                     Delete
                                 </button>
                                 <Modal :show="showConfirmDeleteUserModal" @close="closeModal">
                                     <div class="p-6">
                                         <h2 class="text-lg font-semibold text-slate-800">Are you sure to delete this user?</h2>
-                                        <div class="mt-6 flex justify-end space-x-4">
+                                        <div class="mt-6 flex justify-start space-x-4">
                                             <DangerButton @click="deleteUser(user)">Delete</DangerButton>
                                             <SecondaryButton @click="closeModal">Cancel</SecondaryButton>
                                         </div>
