@@ -1,11 +1,20 @@
 <script setup>
+import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import Table from "@/Components/Table.vue";
+import Modal from '@/Components/Modal.vue';
 import TableRow from "@/Components/TableRow.vue";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { Head, Link, router } from "@inertiajs/vue3";
+import { Head, Link, useForm } from "@inertiajs/vue3";
+import DangerButton from '@/Components/DangerButton.vue';
 import TableDataCell from "@/Components/TableDataCell.vue";
 import TableHeaderCell from "@/Components/TableHeaderCell.vue";
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+
+
+const showConfirmDeletePermissionModal = ref(false);
+
+const form = useForm({});
 
 const props = defineProps({
     permissions: {
@@ -15,15 +24,21 @@ const props = defineProps({
 });
 
 const deletePermission = async (permission) => {
-    router.delete(route('permissions.destroy', permission), {
+    showConfirmDeletePermissionModal.value = true;
+    form.delete(route('permissions.destroy', permission), {
         preserveState: true,
         replace: true,
         onSuccess: () => {
+            closeModal();
             toast('Successfully deleted permission!', {
                 autoClose: 1000,
-            })
+            });
         }
     })
+}
+
+const closeModal = () => {
+    showConfirmDeletePermissionModal.value = false;
 }
 </script>
 
@@ -58,9 +73,20 @@ const deletePermission = async (permission) => {
                                 <Link :href="route('permissions.edit', permission)" class="text-green-400 hover:text-green-300 pr-2">
                                     Edit
                                 </Link>
-                                <button @click="deletePermission(permission)" class="text-red-400 hover:text-red-300">
+                                <button @click="deletePermission" class="text-red-400 hover:text-red-300">
                                     Delete
                                 </button>
+                                <Modal :show="showConfirmDeletePermissionModal" @close="closeModal">
+                                    <div class="p-6">
+                                        <h2 class="text-lg font-semibold text-slate-800">
+                                            Are you sure to delete this permission?
+                                        </h2>
+                                        <div class="mt-6 flex justify-start space-x-4">
+                                            <DangerButton @click="deletePermission(permission)">Delete</DangerButton>
+                                            <SecondaryButton @click="closeModal">Cancel</SecondaryButton>
+                                        </div>
+                                    </div>
+                                </Modal>
                             </TableDataCell>
                         </TableRow>
                     </template>
