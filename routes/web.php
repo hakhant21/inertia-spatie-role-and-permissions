@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use Hak\GatewayMyanmar\Facades\Gateway;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,8 +21,20 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+    ]);
+})->name('welcome');
+
+Route::get('/checkout', function(){
+    $data = Gateway::initialize([
+        'amount' => 10000,
+        'description' => 'test payment test',
+        'invoice_no' => time(),
+        'name' => 'Htet Aung Khant',
+        'email' => 'htet@gmail.com'
+    ]);
+
+    return Inertia::render('Checkouts/Index', [
+        'data' => $data
     ]);
 });
 
@@ -37,3 +50,4 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admins/web.php';
+
