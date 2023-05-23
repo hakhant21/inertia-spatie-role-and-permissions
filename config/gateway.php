@@ -1,14 +1,14 @@
 <?php
 
 return [
-    'merchant_id' => 'JT02',
-    'secret_key' => '72B8F060B3B923E580411200068A764610F61034AE729AB9EF20CAFF93AFA1B9',
+    'merchant_id' => env('MERCHANT_ID'),
+    'secret_key' => env('SECRET_KEY'),
     'currency_code' => 'MMK',
     'payment_channel' => ['CC', 'MPU', 'QR', 'DPAY', 'IMBANK'],
-    'frontend_result_url' => 'https://example.com/payment',
-    'backend_result_url' => 'https://example.com/payment',
+    'frontend_result_url' => env('RESULT_URL_1'),
+    'backend_result_url' => env('RESULT_URL_2'),
     'gateway_url' => [
-        'url' => 'https://sandbox-pgw.2c2p.com/payment/4.1/',
+        'url' => env('BASE_URL'),
         'token' => 'paymentToken',
         'inquiry' => 'paymentInquiry'
     ],
