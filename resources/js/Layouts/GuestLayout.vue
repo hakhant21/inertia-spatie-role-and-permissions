@@ -23,8 +23,10 @@ import { Head, Link } from "@inertiajs/vue3";
                     </div>
                 </div>
             </div>
-            <div class="max-w-6xl mx-auto py-6 px-8">
-                <slot />
+            <div class="py-12">
+                <div class="max-w-md mx-auto shadow-lg rounded-lg py-6 px-6">
+                    <slot />
+                </div>
             </div>
         </div>
 </template>
