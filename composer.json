@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
-        "hak/gateway-myanmar": "^1.0",
+        "hak/gateway-myanmar": "^1.1",
         "inertiajs/inertia-laravel": "^0.6.8",
         "laravel/breeze": "^1.20",
         "laravel/framework": "^10.0",

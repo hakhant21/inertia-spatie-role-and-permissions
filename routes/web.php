@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Hak\GatewayMyanmar\Facades\Gateway;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Billings\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,19 +24,11 @@ Route::get('/', function () {
     ]);
 })->name('welcome');
 
-Route::get('/checkout', function(){
-    $data = Gateway::initialize([
-        'amount' => 10000,
-        'description' => 'test payment test',
-        'invoice_no' => time(),
-        'name' => 'Htet Aung Khant',
-        'email' => 'htet@gmail.com'
-    ]);
-
-    return Inertia::render('Checkouts/Index', [
-        'data' => $data
-    ]);
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('payments:checkout');
+Route::get('payments/frontend/success', function(){
+    return 'Success';
 });
+Route::post('/payments/backend/store', [CheckoutController::class, 'store'])->name('payments:store');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
