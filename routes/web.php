@@ -25,7 +25,7 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('payments:checkout');
-Route::get('payments/frontend/success', function(){
+Route::post('payments/frontend/success', function(){
     return 'Success';
 });
 Route::post('/payments/backend/store', [CheckoutController::class, 'store'])->name('payments:store');
