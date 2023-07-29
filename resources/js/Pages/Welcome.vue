@@ -9,7 +9,6 @@ import GuestLayout from '@/Layouts/GuestLayout.vue'
     <GuestLayout>
         <div>
             Welcome
-            Payment Success
         </div>
     </GuestLayout>
 
