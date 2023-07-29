@@ -25,10 +25,13 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('payments:checkout');
-Route::get('checkout/success', function(){
-    return 'Success';
+Route::get('/checkout/success', function(){
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
 })->name('payment.success');
-Route::post('checkout/store', [CheckoutController::class, 'store'])->name('payments:store');
+Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('payments:store');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
