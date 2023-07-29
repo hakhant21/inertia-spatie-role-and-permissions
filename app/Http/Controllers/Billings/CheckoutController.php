@@ -19,7 +19,7 @@ class CheckoutController extends Controller
             'email' => 'htet@gmail.com'
         ]);
 
-        $session = $request->session()->get('hak_session');
+        $session = request()->session()->get('hak_session');
 
         return redirect()->away($data['webPaymentUrl'])->with('session', $session);
     }
