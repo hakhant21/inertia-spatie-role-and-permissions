@@ -19,13 +19,7 @@ class CheckoutController extends Controller
             'email' => 'htet@gmail.com'
         ]);
 
-        return Inertia::render('Checkouts/Index', [
-            'data' => $data
-        ]);
-    }
 
-    public function store(Request $request)
-    {
-        dd($request->has('backendResponse'));
+        return redirect()->away($data['webPaymentUrl']);
     }
 }
