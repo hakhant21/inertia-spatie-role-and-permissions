@@ -31,7 +31,7 @@ Route::get('/checkout/success', function(){
         'canRegister' => Route::has('register'),
     ]);
 })->name('payment.success');
-Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('payments:store');
+Route::post('/checkout/success', [CheckoutController::class, 'store'])->name('payments:store');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
