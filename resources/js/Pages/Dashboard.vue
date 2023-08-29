@@ -11,7 +11,7 @@ const { hasRole } = usePermission();
 <template>
     <Head title="Dashboard" />
 
-    <template v-if="hasRole('admin')">
+    <template v-if="hasRole('admin') || hasRole('vendor')">
         <AdminLayout>
             <template #header>
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Admin Dashboard</h2>
