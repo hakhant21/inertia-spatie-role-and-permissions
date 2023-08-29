@@ -26,8 +26,6 @@ jobs:
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Clear SSH key
       run: rm ~/.ssh/id_rsa
-    - name: Install Node Dependencies
-      run: npm install && npm run build
     - name: Generate key
       run: php artisan key:generate
     - name: Directory Permissions
